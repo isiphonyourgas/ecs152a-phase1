@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <stdlib.h>
+#include <ctime>
 #include "PacketList.h"
 
 //Time generation for events
@@ -8,6 +9,7 @@ double timeGen(double rate, bool choice)
 {
   double u;
   double alpha = 1;  // subject to change
+  srand48(time(NULL));
   u = drand48();
   if( choice == true )	//exponential
   {
