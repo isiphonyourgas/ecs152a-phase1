@@ -84,19 +84,19 @@ void LinkProcessor::Arrive(Packet_Node *event)
     } else { 
       temp->setNext( last );
       utilization_time += time;
-      queue_time += (length - 2) * time;
+      queue_time += (length - 1) * time;//2 initially
     }
   } else { // Packet Dropped
     utilization_time += time;
     PacketLoss++;
-    queue_time += (length - 1) * time;
+    queue_time += (length  ) * time; //-1
   }
 }
 
 void LinkProcessor::Departure( double time)
 {
   utilization_time += time;
-  queue_time += time * (length - 1);
+  queue_time += time * (length ); //- 1
   this->length -= 1;
   Packet *temp;
   temp = first;
