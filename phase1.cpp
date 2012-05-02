@@ -24,6 +24,7 @@ int main(int argc, char *argv[]) {//rate, # of packets, buffer size, distributio
 }
 
 void Initialize(char** argv) {
+  srand48(time(NULL));
   double arrival = 0;
   double transmission;
   Packets = new Packet_List(atoi(argv[2]), atof(argv[1]), atoi(argv[4]));//Initializes all of the events

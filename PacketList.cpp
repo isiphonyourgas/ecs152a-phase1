@@ -9,7 +9,7 @@ double timeGen(double rate, bool choice)
 {
   double u;
   double alpha = 1;  // subject to change
-  srand48(time(NULL));
+//  srand48(time(NULL));
   u = drand48();
   if( choice == true )	//exponential
   {
@@ -40,12 +40,12 @@ Packet_List::Packet_List(int size, double rate, int c)
   Packet_Node *temp; // used for pointers
   Packet_Node *temp_new; //Used for new
   double arrival = timeGen(rate, choice);  //Arrival time
-  first = new Packet_Node( arrival, timeGen(rate, false) );//first arrival
+  first = new Packet_Node( arrival, timeGen(rate, true) );//first arrival
   temp = first;
   for(int i = 1; i < size; i++ )	//Rest of the arrivals
   { 
     arrival += timeGen(rate, choice);
-    temp_new = new Packet_Node( arrival, timeGen(rate, false));
+    temp_new = new Packet_Node( arrival, timeGen(rate, true));
     temp->setNext( temp_new );
     temp = temp_new;
     temp_new = NULL;
@@ -56,6 +56,7 @@ Packet_Node* Packet_List::remove()
 {
   Packet_Node *ret = first;
   first = first->Next();
+//cout << ret->getTime() << "      " << ret->getService() << endl;
   return(ret);
 }
 
