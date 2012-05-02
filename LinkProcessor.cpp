@@ -67,14 +67,17 @@ void LinkProcessor::Arrive(Packet_Node *event)
 {
   double time;
   Packet *temp = last;
+  time = event->getTime() - prev_time;
+  prev_time = event->getTime();	//Keep track of last time in order to calculate times
+  total_time += time;
   if(( maxBuffer < 0 ) || ( length < maxBuffer ))//Check buffer
   {
     this->length += 1;
     last = NULL;
     last = new Packet(event->getService());
-    time = event->getTime() - prev_time;
-    prev_time = event->getTime();	//Keep track of last time in order to calculate times
-    total_time += time;
+//    time = event->getTime() - prev_time;
+//    prev_time = event->getTime();	//Keep track of last time in order to calculate times
+//    total_time += time;
     if( length == 1 ) // First packet
     {
       first = last;
@@ -84,7 +87,9 @@ void LinkProcessor::Arrive(Packet_Node *event)
       queue_time += (length - 2) * time;
     }
   } else { // Packet Dropped
+    utilization_time += time;
     PacketLoss++;
+    queue_time += (length - 1) * time;
   }
 }
 
