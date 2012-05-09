@@ -5,7 +5,7 @@
 #include "PacketList.h"
 
 //Time generation for events
-double timeGen(double rate, bool choice)
+long double timeGen(double rate, bool choice)
 {
   double u;
   double alpha = 1;  // subject to change
@@ -15,7 +15,8 @@ double timeGen(double rate, bool choice)
   {
     return((-1/rate)*log(1-u));
   } else {		//pareto
-    return( rate * ( pow((1 - u) , (-1 / alpha)) - 1));
+    double x_m = -log(.9)/rate;
+    return( x_m * exp( timeGen(rate, true)));
   }
 }
 
@@ -27,10 +28,10 @@ Packet_Node* Packet_Node::Next()
 void Packet_Node::setNext(Packet_Node *target)
 {  next = target; }
 
-double Packet_Node::getTime()
+long double Packet_Node::getTime()
 { return( time ); }
 
-double Packet_Node::getService()
+long double Packet_Node::getService()
 { return service; }
 
 Packet_List::Packet_List(int size, double rate, int c)
@@ -40,12 +41,17 @@ Packet_List::Packet_List(int size, double rate, int c)
   Packet_Node *temp; // used for pointers
   Packet_Node *temp_new; //Used for new
   double arrival = timeGen(rate, choice);  //Arrival time
+  double arrival2;
   first = new Packet_Node( arrival, timeGen(1, true) );//first arrival
   temp = first;
   for(int i = 1; i < size; i++ )	//Rest of the arrivals
   { 
-    arrival += timeGen(rate, choice);
+    arrival2 = timeGen(rate, choice);
+    arrival += arrival2;
     temp_new = new Packet_Node( arrival, timeGen(1, true));
+//if(arrival2 < temp_new->getService())
+//{cout << i << "        " << arrival2 << "         "  << temp_new->getService() << endl;}
+
     temp->setNext( temp_new );
     temp = temp_new;
     temp_new = NULL;

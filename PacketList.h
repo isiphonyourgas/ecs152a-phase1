@@ -7,18 +7,18 @@ using namespace std;
 
 class Packet_Node {
   public:
-    Packet_Node(double t, double s) :
+    Packet_Node(long double t, long double s) :
       time( t ), service( s ), next( NULL ) {};
     ~Packet_Node() {};
     Packet_Node* Next();	//Next Node
     void setNext(Packet_Node*);	//Sets the next ptr
-    double getTime();		//gets the event time
-    double getService();	//Gets the service time for the packet
+    long double getTime();		//gets the event time
+    long double getService();	//Gets the service time for the packet
 
   private:
     Packet_Node *next;
-    double time;		//Arrival time
-    double service;		//Service time
+    long double time;		//Arrival time
+    long double service;		//Service time
 };
 
 
